@@ -206,55 +206,6 @@ namespace ICFReader
                             break;
                     }
                 }
-                /*
-                    // Check signature
-                    rd.BaseStream.Seek(0x8, SeekOrigin.Begin);
-                    var sign = encoding.GetString(rd.ReadBytes(4));
-                    if (!sign.Equals("BTID"))
-                    {
-                        MessageBox.Show("Invalid Boot ID file");
-                        return false;
-                    }
-                    rd.ReadByte();
-                    currentData = new RingBootId();
-                    var count = rd.ReadByte();
-                    if (count > 2) count = 2;
-                    currentData.AppInfo = new RingAppInfo[count];
-                    // Read basic info
-                    rd.BaseStream.Seek(0x10, SeekOrigin.Begin);
-                    currentData.AppId = encoding.GetString(rd.ReadBytes(4));
-                    for (int i = 0; i < count; i++)
-                    {
-                        var appif = new RingAppInfo();
-                        yy = rd.ReadInt16();
-                        mm = rd.ReadByte();
-                        dd = rd.ReadByte();
-                        hh = rd.ReadByte();
-                        mi = rd.ReadByte();
-                        ss = rd.ReadByte();
-                        rd.ReadByte();
-                        vminor = rd.ReadInt16();
-                        vmajor = rd.ReadInt16();
-                        appif.Date = new DateTime(yy, mm, dd, hh, mi, ss);
-                        appif.Version = new Version(vmajor, vminor);
-                        appif.AppId = currentData.AppId;
-                        currentData.AppInfo[count - i - 1] = appif;
-                        rd.ReadBytes(20); // Skip 20 bytes of unknown shit
-                    }
-                    // Read app name
-                    byte buf;
-                    var arr = new List<byte>();
-                    rd.BaseStream.Seek(0x60, SeekOrigin.Begin);
-                    do
-                    {
-                        buf = rd.ReadByte();
-                        if (buf != 0) arr.Add(buf);
-                        else break;
-                    }
-                    while (true);
-                    currentData.AppName = encoding.GetString(arr.ToArray());
-                    // That's all so far
-                    */
                 dataList.Sort();
                 currentAppName = appid;
                 return true;
