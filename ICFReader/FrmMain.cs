@@ -193,10 +193,16 @@ namespace ICFReader
                             ss = rd.ReadByte();
                             rd.ReadByte(); // ms, not use
                             datetime = new DateTime(yy, mm, dd, hh, mi, ss);
+                            // Check SystemVersion Requirement
+                            vbuild = rd.ReadByte();
+                            vminor = rd.ReadByte();
+                            vmajor = rd.ReadInt16();
+                            ver = new Version(vmajor, vminor, vbuild);
+                            if (!ver.Equals(sysver) && !ver.Equals(vzero)) { lastError = "System Version Error"; return false; }
                             // Check Padding
-                            for (int i = 0; i < 5; i++)
+                            for (int i = 0; i < 2; i++)
                             {
-                                padding = rd.ReadUInt32();
+                                padding = rd.ReadUInt64();
                                 if (padding != 0) { lastError = "Data Padding Error"; return false; }
                             }
                             dataList.Add(String.Format("{0}_{1}_{2:yyyyMMddHHmmss}_0.opt", appid, optid, datetime));
@@ -206,7 +212,7 @@ namespace ICFReader
                             break;
                     }
                 }
-                dataList.Sort();
+                // dataList.Sort();
                 currentAppName = appid;
                 return true;
             }
